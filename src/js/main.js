@@ -24,17 +24,20 @@ d3.json("datas/europe.geojson", function(data){
     var areas = group.append("path")
         .attr("d", path)
         .attr("class", "area")
-        .attr("fill", "steelblue")
-        .attr("stroke", "darkslategray")
+        .attr("fill", "#A9A9A9")
+        .attr("stroke", "#FFF")
         .attr("data-name", function(d) { return d.properties.name; })
-        .attr("stroke-width", 0.5)
+        .attr("data-iso3", function(d) { return d.properties.iso_a3; })
+        .attr("stroke-width", 0.7)
         .on("mouseenter", function(){
             d3.select(this)
-                .attr("fill", "#F00");
+                .attr("fill", "#AD4032");
+
+            console.log(d3.select(this));
         })
         .on("mouseout", function(){
             d3.select(this)
-                .attr("fill", "steelblue");
+                .attr("fill", "#A9A9A9");
         });
 
     /*group.append("text")
