@@ -20,7 +20,7 @@ function createMap(width, height){
     var path = d3.geo.path().projection(projection);
 
     // Load our geojson map of Europe : created with -> https://geojson-maps.ash.ms
-    d3.json("datas/europe.geojson", function(data){
+    d3.json("data/processed/map.geojson", function(data){
         //var country = data.features[0].properties.name;
 
         // Create a svg group
@@ -55,8 +55,8 @@ function createMap(width, height){
 
 }
 
-function fillColorByCriticality(){
-    let csvCo2EmissionFile = "datas/co2-emission2.csv"
+function fillColorByCriticality() {
+    let csvCo2EmissionFile = "data/processed/co2-emissions.csv"
     let colors = ["#628A48", "#AFA73D", "#F9CB01", "#FAA526", "#CB3430"]
 
     d3.dsv(";")(csvCo2EmissionFile, function(error, data){
@@ -88,5 +88,4 @@ function fillColorByCriticality(){
     }, function(){
         $(this).css("fill", lastHoveredColor);
     });
-
 }
