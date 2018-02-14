@@ -5,12 +5,43 @@
         <meta charset="utf-8">
 
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <body>
 
+
+        <div id="criticalityTable">
+            <h3>Émissions de CO2 (tonnes métriques par habitant)</h3>
+            <div class="state">
+                <h4>< 2.77</h4>
+                <div class="color color1"></div>
+            </div>
+            <div class="state">
+                <h4>2.77 - 6.5</h4>
+                <div class="color color2"></div>
+            </div>
+            <div class="state">
+                <h4>6.5 - 10.31</h4>
+                <div class="color color3"></div>
+            </div>
+            <div class="state">
+                <h4>10.31 - 17.36</h4>
+                <div class="color color4"></div>
+            </div>
+            <div class="state">
+                <h4>> 17.36</h4>
+                <div class="color color5"></div>
+            </div>
+        </div>
+
         <div id="map">
         </div>
+
+        <div id="custom-tooltip">Salut</div>
+
+
 
 
         <script type="text/javascript" src="js/vendor/d3.v3.min.js"></script>

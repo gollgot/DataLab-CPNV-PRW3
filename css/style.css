@@ -1,4 +1,58 @@
 body{
     margin: 0px;
     padding: 0px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#criticalityTable{
+    margin: 20px;
+    padding-bottom: 15px;
+    width: 500px;
+    text-align: center;
+    background-color: #FAFAFA;
+    border: 1px solid #000;
+    border-radius: 8px;
+}
+#criticalityTable h3{
+    margin: 15px 0px;
+    padding: 0px;
+}
+#criticalityTable .state{
+    width: 90px;
+    display: inline-block;
+}
+#criticalityTable .state h4{
+    margin: 0px;
+    padding: 0px;
+    font-size: 13px;
+}
+#criticalityTable .state .color{
+    height:20px;
+}
+#criticalityTable .state .color1{
+    background-color: #F0C8B5;
+}
+#criticalityTable .state .color2{
+    background-color: #EAAB90;
+}
+#criticalityTable .state .color3{
+    background-color: #D18358;
+}
+#criticalityTable .state .color4{
+    background-color: #B55E3E;
+}
+#criticalityTable .state .color5{
+    background-color: #7D3827;
+}
+
+#custom-tooltip{
+    position: fixed;
+    border-radius: 5px;
+    color:#FFF;
+    background-color: #000;
+    padding:0px 10px;
+    display: none;
+    top: 0px;
+    left:0px;
+    z-index: 3;
 }
