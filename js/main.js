@@ -97,9 +97,11 @@ function fillColorByCriticality() {
 
 
 function updateTooltip(currentArea, data){
-    // Tooltip
     let hoverCountryName = currentArea.data("name");
-    $("#custom-tooltip").html(hoverCountryName);
+    let countryIso3 = currentArea.data("iso3");
+    let emissionObject = getEmissionObjectByIso3(data, countryIso3);
+
+    $("#custom-tooltip").html(hoverCountryName + " - "+ emissionObject[2014]);
     $("#custom-tooltip").show();
 }
 
@@ -114,3 +116,14 @@ $(document).mousemove(function(e){
         "left": e.pageX - $("#custom-tooltip").width() / 2 - 10,
     });
 });
+
+function getEmissionObjectByIso3(data, targetIso3){
+    let emissionObject = null;
+    data.forEach( function(element, index) {
+        if(element["Country Code"] == targetIso3){
+            emissionObject = element;
+        }
+    });
+
+    return emissionObject;
+}
