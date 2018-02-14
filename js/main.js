@@ -101,7 +101,7 @@ function updateTooltip(currentArea, data){
     let countryIso3 = currentArea.data("iso3");
     let emissionObject = getEmissionObjectByIso3(data, countryIso3);
 
-    $("#custom-tooltip").html(hoverCountryName + " - "+ emissionObject[2014]);
+    $("#custom-tooltip").html(hoverCountryName + " - "+ parseFloat(emissionObject[2014]).toFixed(3));
     $("#custom-tooltip").show();
 }
 
