@@ -19,10 +19,6 @@ function createMap(width, height){
     // Create a path variable
     var path = d3.geo.path().projection(projection);
 
-    var tooltip = d3.select("#tooltip")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
-
     // Load our geojson map of Europe : created with -> https://geojson-maps.ash.ms
     let mapFile = "data/processed/map.geojson";
     d3.json(mapFile, function(data){
@@ -45,18 +41,18 @@ function createMap(width, height){
             .attr("stroke-width", 0.7);
 
         // We will fill all country area with a color will define the criticity
-        fillColorByCriticality();
+        fillColorByCriticality(2014);
     });
 
 }
 
-function fillColorByCriticality() {
+function fillColorByCriticality(targetYear) {
     let csvCo2EmissionFile = "data/processed/co2-emissions.csv";
     let colors = ["#F0C8B5", "#EAAB90", "#D18358", "#B55E3E", "#7D3827"];
 
     d3.dsv(";")(csvCo2EmissionFile, function(error, data){
         data.forEach( function(element, index) {
-            if(element[2014] < 2.77){
+            if(element[targetYear] < 2.77){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[0]);
             }
             else if(element[2014] <= 6.5){
@@ -134,4 +130,5 @@ var output = document.getElementById("selected-year");
 
 slider.oninput = function() {
     output.innerHTML = this.value;
+    fillColorByCriticality(this.value);
 }
