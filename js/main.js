@@ -126,7 +126,7 @@ function resetTooltip(){
 
 $(document).mousemove(function(e){
     $("#custom-tooltip").css({
-        "top": e.pageY - $("#custom-tooltip").height() - 20,
+        "top": e.pageY - $("#custom-tooltip").height() - 30,
         "left": e.pageX - $("#custom-tooltip").width() / 2 - 10,
     });
 });
