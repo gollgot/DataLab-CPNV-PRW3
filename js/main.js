@@ -52,19 +52,19 @@ function fillColorByCriticality(targetYear) {
 
     d3.dsv(";")(csvCo2EmissionFile, function(error, data){
         data.forEach( function(element, index) {
-            if(element[targetYear] < 2.77){
+            if(element[targetYear] < 1.74){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[0]);
             }
-            else if(element[targetYear] <= 6.5){
+            else if(element[targetYear] <= 4.64){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[1]);
             }
-            else if(element[targetYear] <= 10.31){
+            else if(element[targetYear] <= 7.94){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[2]);
             }
-            else if(element[targetYear] <= 17.36){
+            else if(element[targetYear] <= 11.69){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[3]);
             }
-            else if(element[targetYear] > 17.36){
+            else if(element[targetYear] > 11.69){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[4]);
             }
         });
@@ -80,7 +80,7 @@ function fillColorByCriticality(targetYear) {
                 "cursor": "pointer",
             });
 
-            updateTooltip($(this), data);
+            updateTooltip($(this), data, targetYear);
 
         }, function(){
             //$(this).css("fill", lastHoveredColor);
@@ -92,12 +92,12 @@ function fillColorByCriticality(targetYear) {
 
 
 
-function updateTooltip(currentArea, data){
+function updateTooltip(currentArea, data, targetYear){
     let hoverCountryName = currentArea.data("name");
     let countryIso3 = currentArea.data("iso3");
     let emissionObject = getEmissionObjectByIso3(data, countryIso3);
 
-    $("#custom-tooltip").html(hoverCountryName + " - "+ parseFloat(emissionObject[2014]).toFixed(3));
+    $("#custom-tooltip").html(hoverCountryName + " - "+ parseFloat(emissionObject[targetYear]).toFixed(3));
     $("#custom-tooltip").show();
 }
 
