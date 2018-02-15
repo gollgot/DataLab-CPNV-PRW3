@@ -127,3 +127,11 @@ function getEmissionObjectByIso3(data, targetIso3){
 
     return emissionObject;
 }
+
+
+var slider = document.getElementById("years-slider");
+var output = document.getElementById("selected-year");
+
+slider.oninput = function() {
+    output.innerHTML = this.value;
+}
