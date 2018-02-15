@@ -55,16 +55,16 @@ function fillColorByCriticality(targetYear) {
             if(element[targetYear] < 2.77){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[0]);
             }
-            else if(element[2014] <= 6.5){
+            else if(element[targetYear] <= 6.5){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[1]);
             }
-            else if(element[2014] <= 10.31){
+            else if(element[targetYear] <= 10.31){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[2]);
             }
-            else if(element[2014] <= 17.36){
+            else if(element[targetYear] <= 17.36){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[3]);
             }
-            else if(element[2014] > 17.36){
+            else if(element[targetYear] > 17.36){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[4]);
             }
         });
