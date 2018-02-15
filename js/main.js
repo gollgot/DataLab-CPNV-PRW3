@@ -49,23 +49,32 @@ function createMap(width, height){
 function fillColorByCriticality(targetYear) {
     let csvCo2EmissionFile = "data/processed/co2-emissions.csv";
     let colors = ["#F0C8B5", "#EAAB90", "#D18358", "#B55E3E", "#7D3827"];
+    let colorNoData = "#A9A9A9";
 
     d3.dsv(";")(csvCo2EmissionFile, function(error, data){
         data.forEach( function(element, index) {
-            if(element[targetYear] < 1.74){
-                $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[0]);
+        
+            if(element[targetYear] == ""){
+                $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colorNoData);
             }
-            else if(element[targetYear] <= 4.64){
-                $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[1]);
-            }
-            else if(element[targetYear] <= 7.94){
-                $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[2]);
-            }
-            else if(element[targetYear] <= 11.69){
-                $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[3]);
-            }
-            else if(element[targetYear] > 11.69){
-                $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[4]);
+            else{
+
+                if(element[targetYear] < 1.74){
+                    $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[0]);
+                }
+                else if(element[targetYear] <= 4.64){
+                    $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[1]);
+                }
+                else if(element[targetYear] <= 7.94){
+                    $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[2]);
+                }
+                else if(element[targetYear] <= 11.69){
+                    $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[3]);
+                }
+                else if(element[targetYear] > 11.69){
+                    $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[4]);
+                }
+
             }
         });
 
@@ -97,7 +106,16 @@ function updateTooltip(currentArea, data, targetYear){
     let countryIso3 = currentArea.data("iso3");
     let emissionObject = getEmissionObjectByIso3(data, countryIso3);
 
-    $("#custom-tooltip").html(hoverCountryName + " - "+ parseFloat(emissionObject[targetYear]).toFixed(3));
+    let strEmissionsCount = emissionObject[targetYear];
+    let strToDisplay = null;
+
+    if(strEmissionsCount == ""){
+        strToDisplay = hoverCountryName +" - "+ "Aucune donnée";
+    }else{
+        strToDisplay = hoverCountryName +" - "+ parseFloat(strEmissionsCount).toFixed(3);
+    }
+
+    $("#custom-tooltip").html(strToDisplay);
     $("#custom-tooltip").show();
 }
 
