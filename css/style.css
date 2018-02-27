@@ -45,7 +45,9 @@ body{
     background-color: #7D3827;
 }
 
-
+div#map {
+    float: left;
+}
 
 
 
@@ -110,4 +112,14 @@ body{
     border-radius: 50%;
     background: #333; /* Green background */
     cursor: pointer; /* Cursor on hover */
+}
+
+
+
+/* COUNTRY DETAILS / BAR CHART */
+#country-details{
+    margin-left: 30px;
+    width: 900px;
+    height: 600px;
+    float: left;
 }

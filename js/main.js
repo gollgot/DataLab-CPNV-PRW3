@@ -1,8 +1,23 @@
+// Map dimensions
+var width = 760;
+var height = 700;
 
-var width = 760,
-    height = 700;
+// Slider
+var slider = document.getElementById("years-slider");
+var output = document.getElementById("selected-year");
 
+// Country bar chart stuff
+var barChart = null;
+var barChartCanvas = document.getElementById("country-chart");
+Chart.defaults.global.defaultFontFamily = "Roboto";
+Chart.defaults.global.defaultFontSize = 18;
+
+
+
+// Run the displaying
 createMap(width, height);
+
+
 
 function createMap(width, height){
 
@@ -46,6 +61,7 @@ function createMap(width, height){
 
 }
 
+
 function fillColorByCriticality(targetYear) {
     let csvCo2EmissionFile = "data/processed/co2-emissions.csv";
     let colors = ["#F0C8B5", "#EAAB90", "#D18358", "#B55E3E", "#7D3827"];
@@ -53,7 +69,7 @@ function fillColorByCriticality(targetYear) {
 
     d3.dsv(";")(csvCo2EmissionFile, function(error, data){
         data.forEach( function(element, index) {
-        
+
             if(element[targetYear] == ""){
                 $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colorNoData);
             }
@@ -79,21 +95,20 @@ function fillColorByCriticality(targetYear) {
         });
 
 
-        // Hover -> change color to show where we are on
-        var lastHoveredColor;
+        // Hover on an area
         $(".area").hover(function(){
-
-            //lastHoveredColor = $(this).css("fill");
+            // Set cursor to pointer and update the tooltip box
             $(this).css({
-               // "fill": "#000",
                 "cursor": "pointer",
             });
-
             updateTooltip($(this), data, targetYear);
-
         }, function(){
-            //$(this).css("fill", lastHoveredColor);
+            // Hover finish, reset the tooltip box
             resetTooltip();
+        });
+
+        $(".area").click(function(){
+            buildBarChart($(this), data, targetYear);
         });
 
     });
@@ -124,13 +139,6 @@ function resetTooltip(){
     $("#custom-tooltip").hide();
 }
 
-$(document).mousemove(function(e){
-    $("#custom-tooltip").css({
-        "top": e.pageY - $("#custom-tooltip").height() - 30,
-        "left": e.pageX - $("#custom-tooltip").width() / 2 - 10,
-    });
-});
-
 function getEmissionObjectByIso3(data, targetIso3){
     let emissionObject = null;
     data.forEach( function(element, index) {
@@ -142,11 +150,65 @@ function getEmissionObjectByIso3(data, targetIso3){
     return emissionObject;
 }
 
+// All the time we move our mouse, the tooltip box follow the cursor
+$(document).mousemove(function(e){
+    $("#custom-tooltip").css({
+        "top": e.pageY - $("#custom-tooltip").height() - 30,
+        "left": e.pageX - $("#custom-tooltip").width() / 2 - 10,
+    });
+});
 
-var slider = document.getElementById("years-slider");
-var output = document.getElementById("selected-year");
 
+
+// Slider Management => When we choose a year, fill the map with good color criticallity based on the target year
 slider.oninput = function() {
     output.innerHTML = this.value;
     fillColorByCriticality(this.value);
+}
+
+
+
+
+function buildBarChart(currentArea, data, targetYear){
+    let countryName = currentArea.data("name");
+    let countryIso3 = currentArea.data("iso3");
+    let emissionObject = getEmissionObjectByIso3(data, countryIso3);
+    let maxYear = 2014;
+    let yearGap = 10;
+
+    let emissionData = new Array();
+    let allLabels = new Array();
+    for (var i = maxYear - yearGap; i <= maxYear ; i++) {
+        strYear = i.toString();
+        emissionData.push(emissionObject[strYear]);
+        allLabels.push(strYear);
+    }
+
+    let barChartData = {
+      label: countryName,
+      data: emissionData,
+      backgroundColor: "#6F6F6F",
+    };
+
+    // Destroy the current barchart if exists, mandatory to create a new one
+    if(barChart){
+        barChart.destroy();
+    }
+
+    barChart = new Chart(barChartCanvas, {
+        type: 'bar',
+        data: {
+            labels: allLabels,
+            datasets: [barChartData]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: countryName,
+            }
+        }
+    });
 }
