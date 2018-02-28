@@ -16,7 +16,7 @@ Chart.defaults.global.defaultFontSize = 18;
 
 // Run the displaying
 createMap(width, height);
-
+buildEmptyBarChart();
 
 
 function createMap(width, height){
@@ -108,7 +108,7 @@ function fillColorByCriticality(targetYear) {
         });
 
         $(".area").click(function(){
-            buildBarChart($(this), data, targetYear);
+            buildBarChart($(this), data);
         });
 
     });
@@ -167,14 +167,45 @@ slider.oninput = function() {
 }
 
 
+// Function that will create an empty bar chart, this way this is more userfriendly than a empty white bloc
+function buildEmptyBarChart(){
 
+    let barChartData = {
+      label: "test2",
+      data: [0, 10],
+      backgroundColor: "#6F6F6F",
+    };
 
-function buildBarChart(currentArea, data, targetYear){
+    // Destroy the current barchart if exists, mandatory to create a new one
+    if(barChart){
+        barChart.destroy();
+    }
+
+    barChart = new Chart(barChartCanvas, {
+        type: 'bar',
+        data: {
+            labels: null,
+            datasets: [barChartData]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: "Veuillez cliquer sur un pays pour en voir le détail",
+            }
+        }
+    });
+}
+
+// Function that will build a real bachart to show the detail of one selected country
+function buildBarChart(currentArea, data){
     let countryName = currentArea.data("name");
     let countryIso3 = currentArea.data("iso3");
     let emissionObject = getEmissionObjectByIso3(data, countryIso3);
     let maxYear = 2014;
-    let yearGap = 10;
+    let yearGap = 20;
 
     let emissionData = new Array();
     let allLabels = new Array();
