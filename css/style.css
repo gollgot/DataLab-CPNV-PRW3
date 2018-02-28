@@ -6,10 +6,18 @@ body{
 
 #left-side {
     float: left;
+    width: 50%;
 }
 #right-side {
     float: left;
     height: 100vh;
+}
+
+#map{
+    width: 800px;
+    height: 600px;
+    border: 2px solid #EEEEEE;
+    margin: 0px auto;
 }
 
 #criticalityTable{
@@ -17,9 +25,6 @@ body{
     padding-bottom: 15px;
     width: 500px;
     text-align: center;
-    background-color: #FAFAFA;
-    border: 1px solid #000;
-    border-radius: 8px;
 }
 #criticalityTable h3{
     margin: 15px 0px;

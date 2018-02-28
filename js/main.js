@@ -1,6 +1,6 @@
 // Map dimensions
-var width = 760;
-var height = 700;
+var mapWidth = 800;
+var mapHeight = 600;
 
 // Slider
 var slider = document.getElementById("years-slider");
@@ -15,38 +15,32 @@ Chart.defaults.global.defaultFontSize = 18;
 
 
 // Run the displaying
-createMap(width, height);
+createMap(mapWidth, mapHeight);
 buildEmptyBarChart();
 
 
 function createMap(width, height){
-
-    // Create the SVG zone
-    var canvas = d3.select("#map").append("svg")
-      .attr("width", width)
-      .attr("height", height);
-
     // Create the type of projection we want for the map : Docs -> https://github.com/d3/d3-geo#geoMercator
-    var projection = d3.geo.mercator()
+    let projection = d3.geo.mercator()
             .scale(500)
             .translate([300, 950]);
-
     // Create a path variable
-    var path = d3.geo.path().projection(projection);
+    let path = d3.geo.path().projection(projection);
+    // Create the SVG zone
+    let svg = d3.select("#map").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+    // Append a group to svg
+    let g = svg.append("g");
 
     // Load our geojson map of Europe : created with -> https://geojson-maps.ash.ms
     let mapFile = "data/processed/map.geojson";
     d3.json(mapFile, function(data){
-        //var country = data.features[0].properties.name;
-
-        // Create a svg group
-        var group = canvas.selectAll("g")
+        // Create an Area to the svg group with some parameter from the geojson
+        var areas = g.selectAll("g")
             .data(data.features)
             .enter()
-            .append("g");
-
-        // Create a svg Area with some parameter from the geojson
-        var areas = group.append("path")
+            .append("path")
             .attr("d", path)
             .attr("class", "area")
             .attr("fill", "#A9A9A9")
@@ -59,6 +53,16 @@ function createMap(width, height){
         fillColorByCriticality(2014);
     });
 
+    // Zoom management => http://bl.ocks.org/d3noob/5189284
+    let zoom = d3.behavior.zoom()
+        .on("zoom",function() {
+            g.attr("transform","translate("+
+                d3.event.translate.join(",")+")scale("+d3.event.scale+")");
+            g.selectAll("path")
+                .attr("d", path.projection(projection));
+      });
+
+    svg.call(zoom)
 }
 
 
