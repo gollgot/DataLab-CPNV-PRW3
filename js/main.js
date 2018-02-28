@@ -58,8 +58,6 @@ function createMap(width, height){
         .on("zoom",function() {
             g.attr("transform","translate("+
                 d3.event.translate.join(",")+")scale("+d3.event.scale+")");
-            g.selectAll("path")
-                .attr("d", path.projection(projection));
       });
 
     svg.call(zoom)
