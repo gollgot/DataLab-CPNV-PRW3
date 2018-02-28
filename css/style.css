@@ -4,8 +4,16 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 
+#left-side {
+    float: left;
+}
+#right-side {
+    float: left;
+    height: 100vh;
+}
+
 #criticalityTable{
-    margin: 20px;
+    margin: 40px auto 20px auto;
     padding-bottom: 15px;
     width: 500px;
     text-align: center;
@@ -45,10 +53,6 @@ body{
     background-color: #7D3827;
 }
 
-div#map {
-    float: left;
-}
-
 
 
 /* CUSTOM TOOLTIP BOX */
@@ -63,9 +67,6 @@ div#map {
     left:0px;
     z-index: 3;
 }
-
-
-
 
 
 
@@ -121,5 +122,6 @@ div#map {
     margin-left: 30px;
     width: 900px;
     height: 600px;
-    float: left;
+    margin-top: 50vh;
+    transform: translateY(-50%);
 }

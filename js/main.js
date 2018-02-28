@@ -29,7 +29,7 @@ function createMap(width, height){
     // Create the type of projection we want for the map : Docs -> https://github.com/d3/d3-geo#geoMercator
     var projection = d3.geo.mercator()
             .scale(500)
-            .translate([300, 1000]);
+            .translate([300, 950]);
 
     // Create a path variable
     var path = d3.geo.path().projection(projection);

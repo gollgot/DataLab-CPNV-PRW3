@@ -11,47 +11,48 @@
     </head>
     <body>
 
+        <div id="left-side">
+            <div id="criticalityTable">
+                <h3>Émissions de CO2 (tonnes métriques par habitant)</h3>
+                <div class="state">
+                    <h4>< 1.74</h4>
+                    <div class="color color1"></div>
+                </div>
+                <div class="state">
+                    <h4>1.74 - 4.64</h4>
+                    <div class="color color2"></div>
+                </div>
+                <div class="state">
+                    <h4>4.64 - 7.94</h4>
+                    <div class="color color3"></div>
+                </div>
+                <div class="state">
+                    <h4>7.94 - 11.69</h4>
+                    <div class="color color4"></div>
+                </div>
+                <div class="state">
+                    <h4>> 11.69</h4>
+                    <div class="color color5"></div>
+                </div>
 
-        <div id="criticalityTable">
-            <h3>Émissions de CO2 (tonnes métriques par habitant)</h3>
-            <div class="state">
-                <h4>< 1.74</h4>
-                <div class="color color1"></div>
-            </div>
-            <div class="state">
-                <h4>1.74 - 4.64</h4>
-                <div class="color color2"></div>
-            </div>
-            <div class="state">
-                <h4>4.64 - 7.94</h4>
-                <div class="color color3"></div>
-            </div>
-            <div class="state">
-                <h4>7.94 - 11.69</h4>
-                <div class="color color4"></div>
-            </div>
-            <div class="state">
-                <h4>> 11.69</h4>
-                <div class="color color5"></div>
+                <h2 id="selected-year">2014</h2>
+
+                <input type="range" min="1962" max="2014" value="2014" class="slider" id="years-slider">
             </div>
 
-            <h2 id="selected-year">2014</h2>
-
-            <input type="range" min="1962" max="2014" value="2014" class="slider" id="years-slider">
-
+            <div id="map"></div>
         </div>
 
-        <div id="map">
+        <div id="right-side">
+            <div id="country-details">
+                <canvas id="country-chart" width="600" height="400">
+                </canvas>
+            </div>
         </div>
 
-        <div id="country-details">
-            <canvas id="country-chart" width="600" height="400">
-            </canvas>
-        </div>
 
 
-
-        <div id="custom-tooltip">Salut</div>
+        <div id="custom-tooltip"></div>
 
 
         <script type="text/javascript" src="js/vendor/d3.v3.min.js"></script>
