@@ -22,8 +22,8 @@ buildEmptyBarChart();
 function createMap(width, height){
     // Create the type of projection we want for the map : Docs -> https://github.com/d3/d3-geo#geoMercator
     let projection = d3.geo.mercator()
-            .scale(500)
-            .translate([300, 950]);
+            .scale(125)
+            .translate([400, 425]);
     // Create a path variable
     let path = d3.geo.path().projection(projection);
     // Create the SVG zone
@@ -47,7 +47,7 @@ function createMap(width, height){
             .attr("stroke", "#FFF")
             .attr("data-name", function(d) { return d.properties.name; })
             .attr("data-iso3", function(d) { return d.properties.iso_a3; })
-            .attr("stroke-width", 0.7);
+            .attr("stroke-width", 0.5);
 
         // We will fill all country area with a color will define the criticity
         fillColorByCriticality(2014);
