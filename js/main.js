@@ -194,6 +194,7 @@ function buildEmptyBarChart(){
             title: {
                 display: true,
                 text: "Veuillez cliquer sur un pays pour en voir le détail",
+                fontSize: 22,
             }
         }
     });
@@ -218,7 +219,7 @@ function buildBarChart(currentArea, data){
     let barChartData = {
       label: countryName,
       data: emissionData,
-      backgroundColor: "#6F6F6F",
+      backgroundColor: "#BFBDBA",
     };
 
     // Destroy the current barchart if exists, mandatory to create a new one
@@ -239,6 +240,8 @@ function buildBarChart(currentArea, data){
             title: {
                 display: true,
                 text: countryName,
+                fontSize: 24,
+                fontColor: "#000",
             }
         }
     });
