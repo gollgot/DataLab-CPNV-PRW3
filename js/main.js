@@ -1,6 +1,6 @@
 // Map dimensions
-var mapWidth = 800;
-var mapHeight = 600;
+var mapWidth = 700;
+var mapHeight = 500;
 
 // Slider
 var slider = document.getElementById("years-slider");
@@ -23,7 +23,7 @@ function createMap(width, height){
     // Create the type of projection we want for the map : Docs -> https://github.com/d3/d3-geo#geoMercator
     let projection = d3.geo.mercator()
             .scale(125)
-            .translate([400, 425]);
+            .translate([350, 375]);
     // Create a path variable
     let path = d3.geo.path().projection(projection);
     // Create the SVG zone
@@ -67,6 +67,7 @@ function createMap(width, height){
 function fillColorByCriticality(targetYear) {
     let csvCo2EmissionFile = "data/processed/co2-emissions.csv";
     let colors = ["#F0C8B5", "#EAAB90", "#D18358", "#B55E3E", "#7D3827"];
+    let scales = [1.74, 4.64, 7.94, 11.69];
     let colorNoData = "#A9A9A9";
 
     d3.dsv(";")(csvCo2EmissionFile, function(error, data){
@@ -77,19 +78,19 @@ function fillColorByCriticality(targetYear) {
             }
             else{
 
-                if(element[targetYear] < 1.74){
+                if(element[targetYear] < scales[0]){
                     $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[0]);
                 }
-                else if(element[targetYear] <= 4.64){
+                else if(element[targetYear] <= scales[1]){
                     $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[1]);
                 }
-                else if(element[targetYear] <= 7.94){
+                else if(element[targetYear] <= scales[2]){
                     $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[2]);
                 }
-                else if(element[targetYear] <= 11.69){
+                else if(element[targetYear] <= scales[3]){
                     $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[3]);
                 }
-                else if(element[targetYear] > 11.69){
+                else if(element[targetYear] > scales[3]){
                     $(".area[data-iso3="+element["Country Code"]+"]").css("fill", colors[4]);
                 }
 
@@ -110,7 +111,7 @@ function fillColorByCriticality(targetYear) {
         });
 
         $(".area").click(function(){
-            buildBarChart($(this), data);
+            buildBarChart($(this), data, colors, scales);
         });
 
     });
@@ -127,9 +128,9 @@ function updateTooltip(currentArea, data, targetYear){
     let strToDisplay = null;
 
     if(strEmissionsCount == ""){
-        strToDisplay = hoverCountryName +" - "+ "Aucune donnée";
+         strToDisplay = hoverCountryName +" ["+targetYear+"]"+ "<br>" + "Aucune donnée";
     }else{
-        strToDisplay = hoverCountryName +" - "+ parseFloat(strEmissionsCount).toFixed(3);
+        strToDisplay = hoverCountryName +" ["+targetYear+"]"+ "<br>" +parseFloat(strEmissionsCount).toFixed(3);
     }
 
     $("#custom-tooltip").html(strToDisplay);
@@ -203,25 +204,48 @@ function buildEmptyBarChart(){
 }
 
 // Function that will build a real bachart to show the detail of one selected country
-function buildBarChart(currentArea, data){
+function buildBarChart(currentArea, data, colorsPattern, scales){
     let countryName = currentArea.data("name");
     let countryIso3 = currentArea.data("iso3");
     let emissionObject = getEmissionObjectByIso3(data, countryIso3);
     let maxYear = 2014;
     let yearGap = 20;
 
+    // Create 2 arrays, one for the data of co2 emissions, one for the label (displayed at the bottom of the bar chart)
+    // Each array will be for a 20 year gap from 2014 (last data for the moment)
     let emissionData = new Array();
     let allLabels = new Array();
     for (var i = maxYear - yearGap; i <= maxYear ; i++) {
         strYear = i.toString();
-        emissionData.push(emissionObject[strYear]);
+        emissionData.push(parseFloat(emissionObject[strYear]).toFixed(3));
         allLabels.push(strYear);
+    }
+
+    // Create an array of colors that will contains the corresponding color for each data.
+    // The color will be choose in comparaison with the scales[]. E.G: A data 1.80 (scales[0]) => color will be #F0C8B5 (colorsPattern[0])
+    let colors = new Array();
+    for (var i = 0; i < emissionData.length; i++) {
+        if(emissionData[i] < scales[0]){
+            colors.push(colorsPattern[0]);
+        }
+        else if(emissionData[i] <= scales[1]){
+            colors.push(colorsPattern[1]);
+        }
+        else if(emissionData[i] <= scales[2]){
+            colors.push(colorsPattern[2]);
+        }
+        else if(emissionData[i] <= scales[3]){
+            colors.push(colorsPattern[3]);
+        }
+        else if(emissionData[i] > scales[3]){
+            colors.push(colorsPattern[4]);
+        }
     }
 
     let barChartData = {
       label: countryName,
       data: emissionData,
-      backgroundColor: "#BFBDBA",
+      backgroundColor: colors,
     };
 
     // Destroy the current barchart if exists, mandatory to create a new one
@@ -229,6 +253,7 @@ function buildBarChart(currentArea, data){
         barChart.destroy();
     }
 
+    // Bar chart creation
     barChart = new Chart(barChartCanvas, {
         type: 'bar',
         data: {
@@ -241,7 +266,7 @@ function buildBarChart(currentArea, data){
             },
             title: {
                 display: true,
-                text: countryName,
+                text: countryName + " " + (maxYear - yearGap) + " - " + maxYear,
                 fontSize: 24,
                 fontColor: "#000",
             }

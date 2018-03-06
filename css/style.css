@@ -6,7 +6,7 @@ body{
 
 #left-side {
     float: left;
-    width: 50%;
+    width: 45%;
 }
 #right-side {
     float: left;
@@ -14,8 +14,8 @@ body{
 }
 
 #map{
-    width: 800px;
-    height: 600px;
+    width: 700px;
+    height: 500px;
     border: 2px solid #EEEEEE;
     margin: 0px auto;
 }
@@ -71,6 +71,7 @@ body{
     top: 0px;
     left:0px;
     z-index: 3;
+    text-align: center;
 }
 
 
