@@ -8,6 +8,10 @@ body{
     float: left;
     width: 45%;
 }
+#left-side .infos {
+    margin-top:  10px;
+    margin-left: 10%;
+}
 #right-side {
     float: left;
     height: 100vh;
