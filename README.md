@@ -5,5 +5,5 @@
  - Date: 07.03.2018
  - Author: Loïc Dessaules
  - Technologies: Javascript, jQuery, Chart.js, D3, CSS
- - Tags: co2, émissions, écologie, carbone
+ - Tags: co2, émissions, écologie, carbone, environnement
  - Sources: https://donnees.banquemondiale.org/indicateur/EN.ATM.CO2E.PC?locations=CH&view=chart

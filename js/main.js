@@ -33,7 +33,7 @@ function createMap(width, height){
     // Append a group to svg
     let g = svg.append("g");
 
-    // Load our geojson map of Europe : created with -> https://geojson-maps.ash.ms
+    // Load our geojson map of the world : created with -> https://geojson-maps.ash.ms
     let mapFile = "data/processed/map.geojson";
     d3.json(mapFile, function(data){
         // Create an Area to the svg group with some parameter from the geojson
@@ -156,7 +156,7 @@ function getEmissionObjectByIso3(data, targetIso3){
 // All the time we move our mouse, the tooltip box follow the cursor
 $(document).mousemove(function(e){
     $("#custom-tooltip").css({
-        "top": e.pageY - $("#custom-tooltip").height() - 30,
+        "top": e.pageY - $(document).scrollTop() - 70,
         "left": e.pageX - $("#custom-tooltip").width() / 2 - 10,
     });
 });

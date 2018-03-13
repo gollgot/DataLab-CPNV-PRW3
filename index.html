@@ -11,53 +11,153 @@
     </head>
     <body>
 
-        <div id="left-side">
-            <div id="criticalityTable">
-                <h3>Émissions de CO2 (tonnes métriques par habitant)</h3>
-                <div class="state">
-                    <h4>< 1.74</h4>
-                    <div class="color color1"></div>
-                </div>
-                <div class="state">
-                    <h4>1.74 - 4.64</h4>
-                    <div class="color color2"></div>
-                </div>
-                <div class="state">
-                    <h4>4.64 - 7.94</h4>
-                    <div class="color color3"></div>
-                </div>
-                <div class="state">
-                    <h4>7.94 - 11.69</h4>
-                    <div class="color color4"></div>
-                </div>
-                <div class="state">
-                    <h4>> 11.69</h4>
-                    <div class="color color5"></div>
+        <section id="start-section">
+            <h1>Émissions mondiales de CO2</h1>
+            <h2><i>Visualisation OpenData</i></h4>
+            <div class="intro-text">
+                <p>
+                    Principale cause des changements climatiques de la planète, le gaz carbonique (CO2)
+                    n’a jamais été aussi abondant dans l’air depuis 800’000 ans, accentuant la capacité
+                    de l’atmosphère de conserver la chaleur du soleil par effet de serre. Les origines
+                    de cet excès sont connues: la déforestation et, surtout, une consommation effrénée
+                    de combustibles fossiles: mazout, essence, gaz, charbon.
+                </p>
+                <p>
+                    Les changements climatiques liés au réchauffement planétaire sont un problème capital
+                    dont la portée est mondiale nécessitant des actions d’envergure pour réduire les émissions
+                    et mettre en place des mesures d’adaptation.
+                </p>
+            </div>
+        </section>
+
+        <section id="app-section">
+
+            <h2>Visualisation des données</h2>
+
+            <div id="left-side">
+                <div id="criticalityTable">
+                    <h3>Émissions de CO2 (tonnes métriques par habitant)*</h3>
+                    <div class="state">
+                        <h4>< 1.74</h4>
+                        <div class="color color1"></div>
+                    </div>
+                    <div class="state">
+                        <h4>1.74 - 4.64</h4>
+                        <div class="color color2"></div>
+                    </div>
+                    <div class="state">
+                        <h4>4.64 - 7.94</h4>
+                        <div class="color color3"></div>
+                    </div>
+                    <div class="state">
+                        <h4>7.94 - 11.69</h4>
+                        <div class="color color4"></div>
+                    </div>
+                    <div class="state">
+                        <h4>> 11.69</h4>
+                        <div class="color color5"></div>
+                    </div>
+
+                    <div class="info">
+                        <i>* 1 tonne métrique de CO2 est équivalent à 20 aller-retour Paris - Londres en avion<br>Plus d'info <a href="https://www.greenit.fr/2009/12/17/une-tonne-de-co2-equivaut-a/" target="_blank" title="Information sur une tonne de CO2">ici</a></i>
+                    </div>
+
+                    <h2 id="selected-year">2014</h2>
+
+                    <input type="range" min="1962" max="2014" value="2014" class="slider" id="years-slider">
                 </div>
 
-                <h2 id="selected-year">2014</h2>
-
-                <input type="range" min="1962" max="2014" value="2014" class="slider" id="years-slider">
+                <div id="map"></div>
+                <div class="infos">
+                    <span><i><b>Zoom:</b> molette de la souris</i></span>
+                    <br>
+                    <span><i><b>Déplacement:</b> maintenir le clic de la souris et se déplacer</i></span>
+                </div>
             </div>
 
-            <div id="map"></div>
-            <div class="infos">
-                <span><i><b>Zoom:</b> molette de la souris</i></span>
-                <br>
-                <span><i><b>Déplacement:</b> maintenir le clic de la souris et se déplacer</i></span>
+            <div id="right-side">
+                <div id="country-details">
+                    <canvas id="country-chart" width="600" height="400">
+                    </canvas>
+                </div>
             </div>
-        </div>
 
-        <div id="right-side">
-            <div id="country-details">
-                <canvas id="country-chart" width="600" height="400">
-                </canvas>
+            <div id="custom-tooltip"></div>
+        </section>
+
+        <section id="more-section">
+            <h2>Description de l'application</h2>
+            <div class="block">
+                <h3>Fonctionnement</h3>
+                <p>
+                    La carte indique les émissions de CO2 du pays en tonnes métriques par habitant,
+                    pour l'année sélectionnée à l'aide du curseur. Elle se colorie en fonction du
+                    poids, pour l'année sélectionnée, selon l'échelle indiquée. Pour tous les pays
+                    de couleur grise, aucune donnée n'est disponible.
+                </p>
+                <p>
+                    Lors du survole d'un pays avec la souris, des informations sur celui-ci s'affiche
+                    à savoir : le nom du pays, l'année sélectionnée dans le slider et le
+                    poids des émissions de co2 en tonnes par habitant, pour l'année voulue.
+                </p>
+                <p>
+                    Il est en outre possible de cliquer sur un pays précis pour en voir un graphique
+                    détaillé sur le côté droit. C'est un graphique histogramme détaillant le poids des
+                    émissions de co2 pour les 20 dernières années. Pour plus de clareté, les couleurs
+                    des barres correspondent à la même échelle que celle de la carte.
+                </p>
             </div>
-        </div>
-
-
-
-        <div id="custom-tooltip"></div>
+            <div class="block">
+                <div class="img-side">
+                    <img class="technologies" src="img/technologies.png">
+                </div>
+                <div class="text-side">
+                    <h3>Technologies utilisées</h3>
+                    <p>
+                        L'application a été réalisée à l'aide de ces technologies : HTML5, CSS3, Javascript
+                        (Jquery, D3, Chart.js).
+                    </p>
+                    <p>
+                        La structure de la page ainsi que son design ont été entièrement réalisé à l'aide de
+                        HTML5 et CSS3.
+                    </p>
+                    <p>
+                        En ce qui concerne l'application, elle peut se décomposer en 3 parties : La carte, le
+                        graphique histogramme et les interactions utilisateurs.
+                    </p>
+                    <p>
+                        En ce qui conserne la carte, elle a été générée à l'aide de la librairie javascript
+                        <a href="https://d3js.org/" title="Librairie D3" target="_blank">D3</a>. C'est une
+                        librairie extrèmement utilisée dans le domaine des graphiques intéractifs et d'après mes
+                        recherches, la seule qui propose un système de création de mappemonde.
+                    </p>
+                    <p>
+                        Pour ce qui est du graphique histogramme, il a été réalisé avec la librairie javascript
+                        <a href="http://www.chartjs.org/" title="Librairie Chart.js" target="_blank">Chart.js</a>.
+                        Ce choix c'est fait car c'est un concurrent direct de D3 et avait l'air plus simple d'utilisation,
+                        c'était donc l'occasion de les comparées.
+                    </p>
+                    <p>
+                        Pour les divers interactions avec les utilisateurs (hover, clic, slider, etc.), elles ont été
+                        réalisées avec la librairie <a href="https://jquery.com/" title="Librairie jQuery" target="_blank">jQuery</a>.
+                        C'est une librairie très simple qui permet d'écrire plus simplement et rapidement du code Javascript.
+                    </p>
+                </div>
+            </div>
+            <div class="block">
+                <h3>Données</h3>
+                <p>
+                    Les données de cette application sont entièrement open data et proviennent de
+                    <a href="https://donnees.banquemondiale.org/" target="_blank" title="la banque mondiale de données ouvertes">la banque mondiale de données ouvertes</a>.
+                    C'est une plateforme qui permet de consulter des jeux de données chronologiques sur divers sujets au niveau mondiale. Le jeu de données utilisé dans le
+                    cadre de l'application se trouve <a href="https://donnees.banquemondiale.org/indicateur/EN.ATM.CO2E.PC?locations=CH&view=chart" target="_blank" title="Jeu de données : émissions de co2">ici</a>.
+                </p>
+                <p>
+                    En ce qui concerne la création de la mappemonde, j'ai utiliser le site <a href="https://geojson-maps.ash.ms/" target="_blank" title="Site de génération Geojson">geojson-maps</a>
+                    qui permet de facilement exporter des zones géographiques sous format json (communément appelé geojson).
+                </p>
+            </div>
+        </section>
 
 
         <script type="text/javascript" src="js/vendor/d3.v3.min.js"></script>

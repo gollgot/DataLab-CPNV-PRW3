@@ -4,6 +4,79 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 
+a{
+    color: #0B68F0;
+    text-decoration: none;
+}
+
+
+section#start-section{
+    background: url("../img/background-pollution.jpg");
+    background-position: center center;
+    background-size: cover;
+    text-align: center;
+    min-height: 100vh;
+}
+section#start-section h1{
+    margin: 0px 0px 0px 0px;
+    padding:80px 0px 0px 0px;
+    font-size: 50px;
+}
+section#start-section h2{
+    margin: 0px;
+    padding: 0px;
+}
+section#start-section .intro-text{
+    width: 1000px;
+    margin: 100px auto 0px auto;
+    padding: 5px 20px 5px 20px;
+    text-align: left;
+    background-color: #FFF;
+    opacity: 0.5;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+
+
+section#app-section h2{
+    margin: 50px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    font-size: 40px;
+    text-align: center;
+}
+
+section#more-section h2 {
+    margin: 50px 0px 40px 0px;
+    padding: 0px 0px 0px 0px;
+    font-size: 40px;
+    text-align: center;
+}
+section#more-section .block{
+    margin: 0px auto 60px auto;
+    padding: 0px;
+    width: 1000px;
+    border-top: 1px solid #EEEEEE;
+    text-align: justify;
+}
+section#more-section .block h3{
+    font-size: 26px;
+    margin: 20px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+section#more-section .block .img-side{
+    float: left;
+    width: 400px;
+    min-height: 360px;
+    padding-top: 100px;
+    padding-right: 35px;
+}
+section#more-section .block .img-side img{
+    width: 100%;
+}
+section#more-section .block .text-side{
+}
+
 #left-side {
     float: left;
     width: 45%;
@@ -14,6 +87,7 @@ body{
 }
 #right-side {
     float: left;
+    width: 55%;
     height: 100vh;
 }
 
@@ -33,6 +107,12 @@ body{
 #criticalityTable h3{
     margin: 15px 0px;
     padding: 0px;
+}
+#criticalityTable .info{
+    text-align: center;
+    margin-top: 15px;
+    font-weight: normal;
+    font-size: 12px;
 }
 #criticalityTable .state{
     width: 90px;
