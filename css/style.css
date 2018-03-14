@@ -1,6 +1,6 @@
 body{
     margin: 0px;
-    padding: 0px;
+    padding: 0px 0px 50px 0px;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -73,6 +73,21 @@ section#more-section .block .img-side{
 }
 section#more-section .block .img-side img{
     width: 100%;
+}
+section#more-section .block .creator-infos{
+    float: left;
+    margin: 20px 20px 0px 0px;
+    text-align: center;
+}
+section#more-section .block .creator-infos p{
+    margin-top: 5px;
+}
+section#more-section .block .creator-infos .creator{
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    border: 1px solid #000;
+    background-image: url(../img/loic-dessaules.png);
 }
 section#more-section .block .text-side{
 }
