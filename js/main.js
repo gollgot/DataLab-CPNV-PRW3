@@ -111,7 +111,17 @@ function fillColorByCriticality(targetYear) {
         });
 
         $(".area").click(function(){
-            buildBarChart($(this), data, colors, scales);
+            // Log the country click
+            if($(this).data("name") != null){
+                //alert("click on : "+$(this).data("name"));
+            }
+
+            // Build a chart if we have an iso3 data
+            if($(this).data("iso3") != null && $(this).data("iso3") != -99){
+                buildBarChart($(this), data, colors, scales);
+            }else{
+                buildEmptyBarChart("Aucune donnée disponible pour ce pays");
+            }
         });
 
     });
@@ -123,9 +133,15 @@ function updateTooltip(currentArea, data, targetYear){
     let hoverCountryName = currentArea.data("name");
     let countryIso3 = currentArea.data("iso3");
     let emissionObject = getEmissionObjectByIso3(data, countryIso3);
-
-    let strEmissionsCount = emissionObject[targetYear];
+    let strEmissionsCount = null
     let strToDisplay = null;
+
+    // Prevent error when hover a country who doesnt exist on the csv file.
+    if(emissionObject != null){
+        strEmissionsCount = emissionObject[targetYear];
+    }else{
+        strEmissionsCount = ""
+    }
 
     if(strEmissionsCount == ""){
          strToDisplay = hoverCountryName +" ["+targetYear+"]"+ "<br>" + "Aucune donnée";
@@ -171,8 +187,7 @@ slider.oninput = function() {
 
 
 // Function that will create an empty bar chart, this way this is more userfriendly than a empty white bloc
-function buildEmptyBarChart(){
-
+function buildEmptyBarChart(title = "Veuillez cliquer sur un pays pour en voir le détail"){
     let barChartData = {
       label: "test2",
       data: [0, 10],
@@ -196,7 +211,7 @@ function buildEmptyBarChart(){
             },
             title: {
                 display: true,
-                text: "Veuillez cliquer sur un pays pour en voir le détail",
+                text: title,
                 fontSize: 22,
             }
         }
@@ -211,65 +226,78 @@ function buildBarChart(currentArea, data, colorsPattern, scales){
     let maxYear = 2014;
     let yearGap = 20;
 
-    // Create 2 arrays, one for the data of co2 emissions, one for the label (displayed at the bottom of the bar chart)
-    // Each array will be for a 20 year gap from 2014 (last data for the moment)
-    let emissionData = new Array();
-    let allLabels = new Array();
-    for (var i = maxYear - yearGap; i <= maxYear ; i++) {
-        strYear = i.toString();
-        emissionData.push(parseFloat(emissionObject[strYear]).toFixed(3));
-        allLabels.push(strYear);
-    }
 
-    // Create an array of colors that will contains the corresponding color for each data.
-    // The color will be choose in comparaison with the scales[]. E.G: A data 1.80 (scales[0]) => color will be #F0C8B5 (colorsPattern[0])
-    let colors = new Array();
-    for (var i = 0; i < emissionData.length; i++) {
-        if(emissionData[i] < scales[0]){
-            colors.push(colorsPattern[0]);
-        }
-        else if(emissionData[i] <= scales[1]){
-            colors.push(colorsPattern[1]);
-        }
-        else if(emissionData[i] <= scales[2]){
-            colors.push(colorsPattern[2]);
-        }
-        else if(emissionData[i] <= scales[3]){
-            colors.push(colorsPattern[3]);
-        }
-        else if(emissionData[i] > scales[3]){
-            colors.push(colorsPattern[4]);
-        }
-    }
+    // Prevent error if we can't found an object with the iso3 passed
+    if(emissionObject != null){
+        // Create 2 arrays, one for the data of co2 emissions, one for the label (displayed at the bottom of the bar chart)
+        // Each array will be for a 20 year gap from 2014 (last data for the moment)
+        let emissionData = new Array();
+        let allLabels = new Array();
+        for (var i = maxYear - yearGap; i <= maxYear ; i++) {
+            strYear = i.toString();
+            if(emissionObject[strYear] == null){
+                emissionData.push(null);
+            }else{
+                emissionData.push(parseFloat(emissionObject[strYear]).toFixed(3));
+            }
 
-    let barChartData = {
-      label: countryName,
-      data: emissionData,
-      backgroundColor: colors,
-    };
+            allLabels.push(strYear);
+        }
 
-    // Destroy the current barchart if exists, mandatory to create a new one
-    if(barChart){
-        barChart.destroy();
-    }
-
-    // Bar chart creation
-    barChart = new Chart(barChartCanvas, {
-        type: 'bar',
-        data: {
-            labels: allLabels,
-            datasets: [barChartData]
-        },
-        options: {
-            legend: {
-                display: false
-            },
-            title: {
-                display: true,
-                text: countryName + " " + (maxYear - yearGap) + " - " + maxYear,
-                fontSize: 24,
-                fontColor: "#000",
+        // Create an array of colors that will contains the corresponding color for each data.
+        // The color will be choose in comparaison with the scales[]. E.G: A data 1.80 (scales[0]) => color will be #F0C8B5 (colorsPattern[0])
+        let colors = new Array();
+        for (var i = 0; i < emissionData.length; i++) {
+            if(emissionData[i] < scales[0]){
+                colors.push(colorsPattern[0]);
+            }
+            else if(emissionData[i] <= scales[1]){
+                colors.push(colorsPattern[1]);
+            }
+            else if(emissionData[i] <= scales[2]){
+                colors.push(colorsPattern[2]);
+            }
+            else if(emissionData[i] <= scales[3]){
+                colors.push(colorsPattern[3]);
+            }
+            else if(emissionData[i] > scales[3]){
+                colors.push(colorsPattern[4]);
             }
         }
-    });
+
+        let barChartData = {
+          label: countryName,
+          data: emissionData,
+          backgroundColor: colors,
+        };
+
+        // Destroy the current barchart if exists, mandatory to create a new one
+        if(barChart){
+            barChart.destroy();
+        }
+
+        // Bar chart creation
+        barChart = new Chart(barChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: allLabels,
+                datasets: [barChartData]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: countryName + " " + (maxYear - yearGap) + " - " + maxYear,
+                    fontSize: 24,
+                    fontColor: "#000",
+                }
+            }
+        });
+    }
+    // No object data -> display an empty chart
+    else{
+        buildEmptyBarChart("Aucune donnée disponible pour ce pays");
+    }
 }
