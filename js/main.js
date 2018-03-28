@@ -97,6 +97,9 @@ function fillColorByCriticality(targetYear) {
             }
         });
 
+        // MANDATORY for a good working : next .hover and .click event must be inside the fillColorByCriticality function to works good
+        // So, each time the fillColor... function is called, the event is re-defined, so we delet all event each time, to have only one event defined.
+        $(".area").off();
 
         // Hover on an area
         $(".area").hover(function(){
@@ -113,7 +116,7 @@ function fillColorByCriticality(targetYear) {
         $(".area").click(function(){
             // Log the country click
             if($(this).data("name") != null){
-                //alert("click on : "+$(this).data("name"));
+                sendDataLog("click", "country", $(this).data("name"));
             }
 
             // Build a chart if we have an iso3 data
@@ -179,11 +182,16 @@ $(document).mousemove(function(e){
 
 
 
-// Slider Management => When we choose a year, fill the map with good color criticallity based on the target year
+// Slider Management =>
+// fill the map with good color criticallity based on the target year when we slide to show the change
 slider.oninput = function() {
     output.innerHTML = this.value;
     fillColorByCriticality(this.value);
 }
+// When we choose a year, log the info
+$("#years-slider").change(function(){
+    sendDataLog("select", "year", $(this).val());
+});
 
 
 // Function that will create an empty bar chart, this way this is more userfriendly than a empty white bloc
@@ -300,4 +308,29 @@ function buildBarChart(currentArea, data, colorsPattern, scales){
     else{
         buildEmptyBarChart("Aucune donnée disponible pour ce pays");
     }
+}
+
+// We send a log of users usage, this way we can now which country is the most clicked, and which year is the most selected
+function sendDataLog(eventType, target, data){
+    var log = {
+        event : eventType,
+        target : target,
+        data : data
+    };
+    var json = JSON.stringify(log);
+
+    $.ajax({
+        type: "POST",
+        url: "http://172.17.102.83/api/projects/co2_emissions",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: json,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        dataType: "json",
+        success: function(data){
+            alert("OK");
+        },
+        failure: function(errMsg) {
+            alert(errMsg);
+        }
+    });
 }
