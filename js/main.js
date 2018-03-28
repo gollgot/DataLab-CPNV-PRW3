@@ -323,14 +323,10 @@ function sendDataLog(eventType, target, data){
         type: "POST",
         url: "http://172.17.102.83/api/projects/co2_emissions",
         // The key needs to match your method's input parameter (case-sensitive).
-        data: json,
+        data: "data="+json,
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         dataType: "json",
-        success: function(data){
-            alert("OK");
-        },
-        failure: function(errMsg) {
-            alert(errMsg);
-        }
+        crossDomain: true,
+        success: function(data){}
     });
 }
