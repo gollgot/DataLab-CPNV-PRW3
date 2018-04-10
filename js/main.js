@@ -64,6 +64,7 @@ function createMap(width, height){
 }
 
 
+// Function that we can call when we want to color all the map by criticallity for the year pass in parameter
 function fillColorByCriticality(targetYear) {
     let csvCo2EmissionFile = "data/processed/co2-emissions.csv";
     let colors = ["#F0C8B5", "#EAAB90", "#D18358", "#B55E3E", "#7D3827"];
